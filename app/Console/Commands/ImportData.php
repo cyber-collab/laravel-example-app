@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use App\Models\Data;
+use App\Models\Post;
 
 class ImportData extends Command
 {
@@ -37,7 +37,7 @@ class ImportData extends Command
             foreach ($secondData['data']['list'] as $secondItem) {
                 if ($firstItem['name'] == $secondItem['dimensions']['ad_id']) {
 
-                    Data::create([
+                    Post::create([
                         'ad_id' => $secondItem['dimensions']['ad_id'],
                         'impressions' => $secondItem['metrics']['impressions'],
                         'clicks' => $firstItem['clicks'],

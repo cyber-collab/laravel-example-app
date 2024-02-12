@@ -1,0 +1,61 @@
+import { ref } from 'vue'
+import axios from "axios";
+import { useRouter } from 'vue-router';
+
+export default function usePosts() {
+    const posts = ref([])
+    const post = ref([])
+    const router = useRouter()
+    const errors = ref('')
+
+    const getPosts = async () => {
+        let response = await axios.get('/api/posts')
+        posts.value = response.data.data;
+    }
+
+    const getPost = async (id) => {
+        let response = await axios.get('/api/posts/' + id)
+        post.value = response.data.data;
+    }
+
+    const storePost = async (data) => {
+        errors.value = ''
+        try {
+            await axios.post('/api/posts/', data);
+            const successMessage = 'Account successfully created!';
+            await router.push({ name: 'posts.index', query: { successMessage } });
+        } catch (e) {
+            if (e.response.status === 422) {
+                errors.value = e.response.data.errors
+            }
+        }
+    }
+
+    const updatePost = async (id) => {
+        errors.value = ''
+        try {
+            await axios.put('/api/posts/' + id, account.value)
+            const successUpdateMessage = 'Data successfully updated!';
+            await router.push({ name: 'posts.index', query: { successUpdateMessage } });
+            } catch (e) {
+                if (e.response.status === 422) {
+                    errors.value = e.response.data.errors
+                }
+            }
+    };
+
+    const destroyPost = async (id) => {
+        await axios.delete('/api/posts/' + id)
+    }
+
+    return {
+        posts,
+        post,
+        errors,
+        getPosts,
+        getPost,
+        storePost,
+        updatePost,
+        destroyPost
+    }
+}
