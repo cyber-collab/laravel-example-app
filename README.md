@@ -6,8 +6,8 @@ Please, clone this repository form github, by this options:
 
 | Option | Links                                                                                      |
 | ------ | ------------------------------------------------------------------------------------------ |
-| SHH    | [git@github.com:cyber-collab/laravel-vue.git](git@github.com:cyber-collab/laravel-vue.git) |
-| HTTPS  | [https://github.com/cyber-collab/laravel-vue](https://github.com/cyber-collab/laravel-vue) |
+| SHH    | [git@github.com:cyber-collab/laravel-example-app.git](git@github.com:cyber-collab/laravel-example-app.git) |
+| HTTPS  | [https://github.com/cyber-collab/laravel-example-app.git](https://github.com/cyber-collab/laravel-example-app.git) |
 
 ## Services exposed outside your environment
 
