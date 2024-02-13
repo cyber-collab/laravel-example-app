@@ -10,29 +10,65 @@
     <form class="space-y-6" @submit.prevent="savePost">
         <div class="space-y-4 rounded-md shadow-sm">
             <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <label for="ad_id" class="block text-sm font-medium text-gray-700">Ad Id</label>
                 <div class="mt-1">
-                    <input type="text" name="name" id="name"
+                    <input type="text" name="ad_id" id="ad_id"
                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.name">
+                           v-model="form.ad_id">
                 </div>
             </div>
 
             <div>
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                <label for="impressions" class="block text-sm font-medium text-gray-700">Impressions</label>
                 <div class="mt-1">
-                    <input type="text" name="phone" id="phone"
+                    <input type="text" name="impressions" id="impressions"
                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.phone">
+                           v-model="form.impressions">
                 </div>
             </div>
 
             <div>
-                <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+                <label for="clicks" class="block text-sm font-medium text-gray-700">Clicks</label>
                 <div class="mt-1">
-                    <input type="text" name="website" id="website"
+                    <input type="text" name="clicks" id="clicks"
                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.website">
+                           v-model="form.clicks">
+                </div>
+            </div>
+
+            <div>
+                <label for="unique_clicks" class="block text-sm font-medium text-gray-700">Unique Clicks</label>
+                <div class="mt-1">
+                    <input type="text" name="unique_clicks" id="unique_clicks"
+                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           v-model="form.unique_clicks">
+                </div>
+            </div>
+
+            <div>
+                <label for="leads" class="block text-sm font-medium text-gray-700">Leads</label>
+                <div class="mt-1">
+                    <input type="text" name="leads" id="leads"
+                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           v-model="form.leads">
+                </div>
+            </div>
+
+            <div>
+                <label for="conversion" class="block text-sm font-medium text-gray-700">Conversion</label>
+                <div class="mt-1">
+                    <input type="text" name="conversion" id="conversion"
+                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           v-model="form.conversion">
+                </div>
+            </div>
+
+            <div>
+                <label for="roi" class="block text-sm font-medium text-gray-700">Roi</label>
+                <div class="mt-1">
+                    <input type="text" name="roi" id="roi"
+                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           v-model="form.roi">
                 </div>
             </div>
         </div>
@@ -49,13 +85,16 @@ import { reactive } from "vue";
 import useDates from "@/composables/posts";
 
 const form = reactive({
-    'name': '',
-    'phone': '',
-    'website': '',
+    'ad_id': '',
+    'roi': '',
+    'impressions': '',
+    'clicks': '',
+    'unique_clicks': '',
+    'conversion': '',
+    'leads': '',
 })
 const { errors, storePost } = useDates()
 const savePost = async () => {
     await storePost({ ...form });
 }
 </script>
-@/composables/posts

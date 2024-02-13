@@ -22,7 +22,7 @@ export default function usePosts() {
         errors.value = ''
         try {
             await axios.post('/api/posts/', data);
-            const successMessage = 'Account successfully created!';
+            const successMessage = 'Post successfully created!';
             await router.push({ name: 'posts.index', query: { successMessage } });
         } catch (e) {
             if (e.response.status === 422) {
@@ -35,7 +35,7 @@ export default function usePosts() {
         errors.value = ''
         try {
             await axios.put('/api/posts/' + id, post.value)
-            const successUpdateMessage = 'Data successfully updated!';
+            const successUpdateMessage = 'Post successfully updated!';
             await router.push({ name: 'posts.index', query: { successUpdateMessage } });
             } catch (e) {
                 if (e.response.status === 422) {

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('ad_id');
             $table->string('impressions');
-            $table->string('clicks');
-            $table->string('unique_clicks');
-            $table->string('leads');
+            $table->integer('clicks');
+            $table->integer('unique_clicks');
+            $table->integer('leads');
             $table->integer('conversion');
             $table->float('roi');
             $table->timestamps();

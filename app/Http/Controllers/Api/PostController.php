@@ -8,15 +8,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use App\Http\Services\PostService;
 
 class PostController extends Controller
 {
-    public function __construct(
-        private readonly PostService $postService
-    )
-    {}
-
     public function index(): AnonymousResourceCollection
     {
         return PostResource::collection(Post::all());

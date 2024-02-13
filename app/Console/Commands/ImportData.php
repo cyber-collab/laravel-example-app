@@ -26,38 +26,40 @@ class ImportData extends Command
      * Execute the console command.
      */
     public function handle()
-    {
-        $firstResponse = Http::get('https://submitter.tech/test-task/endpoint1.json');
-        $firstData = $firstResponse->json();
+{
+    $firstResponse = Http::get('https://submitter.tech/test-task/endpoint1.json');
+    $secondResponse = Http::get('https://submitter.tech/test-task/endpoint2.json');
 
-        $secondResponse = Http::get('https://submitter.tech/test-task/endpoint2.json');
-        $secondData = $secondResponse->json();
+    if (!$firstResponse->successful() || !$secondResponse->successful()) {
+        $this->error('Failed to retrieve data.');
+        return;
+    }
 
-        foreach ($firstData as $firstItem) {
-            foreach ($secondData['data']['list'] as $secondItem) {
-                if ($firstItem['name'] == $secondItem['dimensions']['ad_id']) {
+    $firstData = $firstResponse->json();
+    $secondData = $secondResponse->json();
 
-                    Post::create([
-                        'ad_id' => $secondItem['dimensions']['ad_id'],
-                        'impressions' => $secondItem['metrics']['impressions'],
-                        'clicks' => $firstItem['clicks'],
-                        'unique_clicks' => $firstItem['unique_clicks'],
-                        'leads' => $firstItem['leads'],
-                        'conversion' => $secondItem['metrics']['conversion'],
-                        'roi' => $firstItem['roi'],
-                    ]);
-                }
-            }
+    $createdPosts = [];
+
+      array_map(function ($firstItem) use ($secondData, &$createdPosts) {
+        $secondItem = collect($secondData['data']['list'])->first(function ($item) use ($firstItem) {
+            return $item['dimensions']['ad_id'] == $firstItem['name'];
+        });
+
+        if ($secondItem) {
+            $post = Post::create([
+                'ad_id' => $secondItem['dimensions']['ad_id'],
+                'impressions' => $secondItem['metrics']['impressions'],
+                'clicks' => $firstItem['clicks'],
+                'unique_clicks' => $firstItem['unique_clicks'],
+                'leads' => $firstItem['leads'],
+                'conversion' => $secondItem['metrics']['conversion'],
+                'roi' => $firstItem['roi'],
+            ]);
+            $createdPosts[] = $post;
         }
+    }, $firstData);
 
-        $this->info('Data combined and imported successfully.');
-    }
+    $this->info('Data combined and imported successfully.');
+}
 
-    public function calculateConversion($clicks, $leads) {
-        return $leads > 0 ? ($leads / $clicks) * 100 : 0;
-    }
-
-    public function calculateROI($clicks, $leads, $impressions) {
-        return $impressions > 0 ? (($leads * 100) / $impressions) - (($clicks * 100) / $impressions) : 0;
-    }
 }

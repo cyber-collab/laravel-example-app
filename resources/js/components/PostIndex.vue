@@ -75,8 +75,8 @@
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                             {{ item.conversion }}
                         </td>
-                        <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                            {{ item.roi }}
+                        <td class="px-4 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                            {{ item.roi + "%" }}
                         </td>
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                             <router-link :to="{ name: 'posts.edit', params: { id: item.id } }"
