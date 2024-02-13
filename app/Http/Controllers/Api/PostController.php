@@ -24,7 +24,7 @@ class PostController extends Controller
 
     public function store(PostRequest $request): PostResource
     {
-        $post = $this->postService->createPost($request);
+        $post = Post::create($request->validated());
 
         return new PostResource($post);
     }
@@ -43,7 +43,7 @@ class PostController extends Controller
 
     public function destroy(Post $post): Response
     {
-        // $this->postService->deletePost($post);
+        $post->delete();
 
         return response()->noContent();
     }

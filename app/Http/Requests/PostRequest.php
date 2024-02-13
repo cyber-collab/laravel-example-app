@@ -22,7 +22,13 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'ad_id' => ['required', 'string'],
+            'impressions' => ['required', 'string'],
+            'unique_clicks' => ['string'],
+            'clicks' => ['string'],
+            'leads' => ['string'],
+            'conversion' => ['string'],
+            'roi' => ['string'],
         ];
     }
 }
