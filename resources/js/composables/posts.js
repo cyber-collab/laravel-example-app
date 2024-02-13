@@ -34,7 +34,7 @@ export default function usePosts() {
     const updatePost = async (id) => {
         errors.value = ''
         try {
-            await axios.put('/api/posts/' + id, account.value)
+            await axios.put('/api/posts/' + id, post.value)
             const successUpdateMessage = 'Data successfully updated!';
             await router.push({ name: 'posts.index', query: { successUpdateMessage } });
             } catch (e) {

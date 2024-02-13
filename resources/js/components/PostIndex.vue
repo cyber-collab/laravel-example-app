@@ -1,11 +1,12 @@
 <template>
     <div class="overflow-hidden overflow-x-auto min-w-full align-middle sm:rounded-md">
+        <SearchForm @search="handleSearch" />
         <div class="flex place-content-end mb-4">
             <div class="px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-700 rounded-md cursor-pointer">
                 <router-link :to="{ name: 'posts.create' }" class="text-sm font-medium">Add new post</router-link>
             </div>
         </div>
-<!--
+
         <div v-if="successMessage" class="bg-green-200 p-4 mb-4 rounded-md">
             {{ successMessage }}
         </div>
@@ -16,7 +17,7 @@
 
         <div v-if="successRemoveMessage" class="bg-green-200 p-4 mb-4 rounded-md">
             {{ successRemoveMessage }}
-        </div> -->
+        </div>
 
         <table class="min-w-full border divide-y divide-gray-200">
             <thead>
@@ -54,7 +55,7 @@
             </thead>
 
             <tbody class="bg-white divide-y divide-gray-200 divide-solid">
-                <template v-for="item in posts" :key="item.id">
+                <template v-for="item in filteredItems" :key="item.id">
                     <tr class="bg-white">
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                             {{ item.ad_id }}
@@ -82,7 +83,7 @@
                                 class="mr-2 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                                 Edit
                             </router-link>
-                            <button @click="deleteAccount(item.id)"
+                            <button @click="deletePost(item.id)"
                                     class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                                 Delete
                             </button>
@@ -96,21 +97,23 @@
 
 <script setup>
 import usePosts from "@/composables/posts";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import SearchForm from '@/components/SearchForm.vue';
 
 const { posts, getPosts, destroyPost } = usePosts()
 
 onMounted(getPosts)
 
 const successRemoveMessage = ref('');
+const searchFilter = ref('');
 
-const deleteAccount = async (id) => {
+const deletePost = async (id) => {
     if (!window.confirm('Are you sure?')) {
         return
     }
     await destroyPost(id);
-    successRemoveMessage.value = 'Account successfully removed!';
+    successRemoveMessage.value = 'Post successfully removed!';
     await getPosts();
 }
 
@@ -123,4 +126,17 @@ let successUpdateMessage = route.query.successUpdateMessage || '';
 if (successMessage || successUpdateMessage) {
     router.replace({ query: {} });
 }
+
+const handleSearch = (search) => {
+    searchFilter.value = search
+}
+
+const filteredItems = computed(() => {
+    if (searchFilter.value !== '') {
+        return posts.value.filter(item => item.ad_id.includes(searchFilter.value));
+    }
+
+    return posts.value;
+});
+
 </script>
