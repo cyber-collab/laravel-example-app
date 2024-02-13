@@ -27,4 +27,4 @@ Restart the container!
 4. Run `sail artisan app:data-import` for import data from two json resources.
 5. Run `npm install` and `npm run build`, you need have 16 versions node or higher, for build vue
 6. After that press to Login button and enter "admin@admin.com" and "password"
-7. And you can see results
+7. Going to [dashboard](http://localhost/dashboard) And you can see results
